@@ -3,11 +3,8 @@
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-<<<<<<< HEAD
     return view('welcome');
-=======
     return view('home');
->>>>>>> 2aff76d89f87a6da9feac8e817024badb8e2df20
 });
 
 Route::get('login', function() {
