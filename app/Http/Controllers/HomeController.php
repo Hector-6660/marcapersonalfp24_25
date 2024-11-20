@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
-class HomeController extends Controller {
-    public function getHome() {
+use Illuminate\Http\Request;
+
+class HomeController extends Controller
+{
+    public function getHome()
+    {
         return redirect()->action([ProyectosController::class, 'getIndex']);
     }
 }

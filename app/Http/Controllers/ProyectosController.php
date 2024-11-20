@@ -4,27 +4,31 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class ProyectosController extends Controller {
-
-    public function getIndex() {
+class ProyectosController extends Controller
+{
+    public function getIndex()
+    {
         return view('proyectos.index')
             ->with('proyectos', $this->arrayProyectos);
     }
 
-    public function getCreate() {
+    public function getShow($id)
+    {
+            return view('proyectos.show')
+                ->with('proyecto', $this->arrayProyectos[$id])
+                ->with('id', $id);
+    }
+
+    public function getCreate()
+    {
         return view('proyectos.create');
     }
 
-    public function getEdit($id) {
-        return view('proyectos.edit')
-            ->with('proyecto', $this->arrayProyectos[$id])
-            ->with('id', $id);
-    }
-
-    public function getShow($id) {
-        return view('proyectos.show')
-            ->with('proyecto', $this->arrayProyectos[$id])
-            ->with('id', $id);
+    public function getEdit($id)
+    {
+            return view('proyectos.edit')
+                ->with('proyecto', $this->arrayProyectos[$id])
+                ->with('id', $id);
     }
 
     private $arrayProyectos = [
@@ -129,4 +133,5 @@ class ProyectosController extends Controller {
             ]
         ],
     ];
+
 }
