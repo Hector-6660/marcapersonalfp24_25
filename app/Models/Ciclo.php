@@ -9,6 +9,8 @@ class Ciclo extends Model
 {
     use HasFactory;
 
+    protected $table = 'ciclos';
+
     protected $fillable = [
         'id',
         'codCiclo',
