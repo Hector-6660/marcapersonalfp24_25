@@ -3,17 +3,22 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\CompetenciaResource;
 use App\Models\Competencia;
 use Illuminate\Http\Request;
 
 class CompetenciaController extends Controller
 {
+    public $modelclass = Competencia::class;
+
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        return CompetenciaResource::collection(
+            Competencia::orderBy($request->_sort ?? 'id', $request->_order ?? 'asc')
+            ->paginate($request->perPage));
     }
 
     /**
@@ -21,30 +26,43 @@ class CompetenciaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $competencia = json_decode($request->getContent(), true);
+
+        $competencia = Competencia::create($competencia);
+
+        return new CompetenciaResource($competencia);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Competencia $competencias)
+    public function show(Competencia $competencia)
     {
-        //
+        return new CompetenciaResource($competencia);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Competencia $competencias)
+    public function update(Request $request, Competencia $competencia)
     {
-        //
+        $competenciaData = json_decode($request->getContent(), true);
+        $competencia->update($competenciaData);
+
+        return new CompetenciaResource($competencia);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Competencia $competencias)
+    public function destroy(Competencia $competencia)
     {
-        //
+        try {
+            $competencia->delete();
+            return response()->json(null, 204);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Error: ' . $e->getMessage()], 400);
+        }
     }
 }

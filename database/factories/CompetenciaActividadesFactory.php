@@ -17,8 +17,8 @@ class CompetenciaFactory extends Factory
     public function definition(): array
     {
         return [
-            'nombre' => fake()->sentence(),
-            'codCiclo' => fake()->sentence(),
+            'competencia_id' => random_int(1, 100),
+            'actividad_id' => random_int(1, 100),
         ];
     }
 }

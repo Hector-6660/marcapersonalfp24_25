@@ -12,9 +12,9 @@ class CompetenciasTableSeeder extends Seeder
      */
     public function run(): void
     {
-        $ciclo = new \App\Models\Competencia();
-        $ciclo->nombre = 'nombreCompetencia1';
-        $ciclo->color = 'colorCompetencia1';
-        $ciclo->save();
+        $competencia = new \App\Models\Competencia();
+        $competencia->nombre = 'nombreCompetencia1';
+        $competencia->color = 'colorCompetencia1';
+        $competencia->save();
     }
 }
