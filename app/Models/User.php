@@ -35,10 +35,6 @@ class User extends Authenticatable
         'remember_token',
     ];
 
-    public static $filterColumns = [
-        'name', 'nombre', 'apellidos', 'email',
-    ];
-
     /**
      * Get the attributes that should be cast.
      *
@@ -52,8 +48,7 @@ class User extends Authenticatable
         ];
     }
 
-    public function curriculo()
-    {
+    public function curricuo() {
         return $this->hasOne(Curriculo::class);
     }
 }

@@ -19,12 +19,12 @@ class ReactAdminResponse
     {
         if ($request->routeIs('*.index')) {
             $request->merge(['perPage' => 10]);
-            $paramStart = $request->_start ?? 1;
-            if ($request->filled('_end')) {
-                $request->merge(['perPage' => 1 + $request->_end - $paramStart]);
+            if ($request->filled('_start')) {
+                if ($request->filled('_end')) {
+                    $request->merge(['perPage' => 1 + $request->_end - $request->_start]);
+                }
+                $request->merge(['page' => intval($request->_start / $request->perPage) + 1]);
             }
-            $request->merge(['page' => intval($paramStart / $request->perPage) + 1]);
-
             $controller = $request->route()->getController();
             $modelClassName = $controller->modelclass;
             $query = self::applyFilter($request, $modelClassName::$filterColumns);
@@ -55,6 +55,11 @@ class ReactAdminResponse
         $query = $modelClassName::query();
         $filterValue = $request->q;
 
+        if ($request->has('id')) {
+            $ids = $request->input('id');
+            $query->whereIn('id', $ids);
+        }
+
         if ($filterValue) {
             $query->where(function ($query) use ($filterValue, $filterColumns) {
                 foreach ($filterColumns as $column) {
@@ -62,6 +67,7 @@ class ReactAdminResponse
                 }
             });
         }
+
         return $query;
     }
 

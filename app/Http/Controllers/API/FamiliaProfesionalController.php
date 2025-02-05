@@ -9,17 +9,17 @@ use Illuminate\Http\Request;
 
 class FamiliaProfesionalController extends Controller
 {
-    public $modelclass = FamiliaProfesional::class;
-
     /**
      * Display a listing of the resource.
      */
+    public $modelclass = FamiliaProfesional::class;
+
     public function index(Request $request)
     {
-        $query = $request->attributes->has('queryWithParameters')
-            ? $request->attributes->get('queryWithParameters')
-            : FamiliaProfesional::query();
-        return FamiliaProfesionalResource::collection($query->paginate($request->perPage));
+        $query = $request->attributes->get('queryWithParameters');
+        return FamiliaProfesionalResource::collection(
+            $query->paginate($request->perPage)
+        );
     }
 
     /**
