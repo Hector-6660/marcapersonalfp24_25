@@ -15,6 +15,7 @@ use App\Http\Controllers\API\TokenController;
 use App\Http\Controllers\API\UserController;
 use App\Http\Controllers\API\UsersCiclosController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use GuzzleHttp\Middleware;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
@@ -33,7 +34,8 @@ Route::prefix('v1')->group(function () {
     Route::apiResource('familias_profesionales', FamiliaProfesionalController::class)->parameters([
         'familias_profesionales' => 'familiaProfesional'
     ]);
-    Route::apiResource('curriculos', CurriculoController::class);
+    Route::apiResource('curriculos', CurriculoController::class)
+        ->Middleware('auth:sanctum');
     Route::apiResource('users', UserController::class);
     Route::apiResource('proyectos', ProyectoController::class);
     Route::apiResource('reconocimientos', ReconocimientoController::class);
