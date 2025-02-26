@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\EmpresaResource;
 use App\Models\Empresa;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controllers\Middleware;
+use Illuminate\Support\Facades\Gate;
 
 class EmpresaController extends Controller
 {
@@ -13,6 +15,13 @@ class EmpresaController extends Controller
     /**
      * Display a listing of the resource.
      */
+    public static function middleware(): array
+    {
+        return [
+            new Middleware('auth:sanctum', except: ['index', 'show']),
+        ];
+    }
+
     public function index(Request $request)
     {
         $query =
@@ -27,6 +36,8 @@ class EmpresaController extends Controller
      */
     public function store(Request $request)
     {
+        Gate::authorize('create', Empresa::class);
+
         $empresa = json_decode($request->getContent(), true);
 
         $empresa = Empresa::create($empresa);
@@ -47,6 +58,8 @@ class EmpresaController extends Controller
      */
     public function update(Request $request, Empresa $empresa)
     {
+        Gate::authorize('update', $empresa);
+
         $empresaData = json_decode($request->getContent(), true);
         $empresa->update($empresaData);
 
@@ -58,6 +71,8 @@ class EmpresaController extends Controller
      */
     public function destroy(Empresa $empresa)
     {
+        Gate::authorize('delete', $empresa);
+
         try {
             $empresa->delete();
             return response()->json(null, 204);
